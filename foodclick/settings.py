@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6l1t#&!6%)vr6%wvmb2iw9&f(^pfb^-&t!n)94okr4b$x565dx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['foodclick.pythonanywhere.com', '127.0.0.1']
 
 AUTH_USER_MODEL = 'main.User'
 
