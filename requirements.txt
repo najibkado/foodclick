@@ -1,0 +1,11 @@
+python-decouple
+six
+djangorestframework
+markdown
+django-filter
+requests
+pycrypto
+pyjwt
+geoip2
+geopy
+psycopg2
