@@ -3,11 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
-    
-    def serialize(self):
-        return {
-            "user": self.__dict__()
-        }
+    pass
 
 class Entity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="entity_owner")
@@ -19,7 +15,7 @@ class Entity(models.Model):
 
     def serialize(self):
         return {
-            "user": self.user.serialize(),
+            "user": self.user,
             "name": self.name,
             "desc": self.desc,
             "pickup_address": self.pickup_address,
