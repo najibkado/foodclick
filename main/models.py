@@ -15,7 +15,7 @@ class Entity(models.Model):
 
     def serialize(self):
         return {
-            "user": self.user,
+            "user": self.user.first_name,
             "name": self.name,
             "desc": self.desc,
             "pickup_address": self.pickup_address,
