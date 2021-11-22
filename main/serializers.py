@@ -17,20 +17,15 @@ class UserSerializer(serializers.Serializer):
             'username',
             'first_name',
             'last_name',
-            'email',
-            'nin'
+            'email'
         ]
 
     def validate(self, attrs):
         email = attrs.get('email', '')
         username = attrs.get('username')
-        nin = attrs.get('nin')
 
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError({'email': ('Email already in use')})
-
-        if User.objects.filter(nin=nin).exists():
-            raise serializers.ValidationError({'NIN': ('NIN already in use')})
 
         if User.objects.filter(username=username).exists():
             raise serializers.ValidationError({'usermane': ('Username already in use')})
