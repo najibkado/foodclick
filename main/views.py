@@ -137,7 +137,7 @@ class ListingsApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self):
+    def get(self, request):
         data = Listing.objects.all()
         serializer = ListingSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
