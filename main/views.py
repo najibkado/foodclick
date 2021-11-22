@@ -140,7 +140,19 @@ class ListingsApiView(APIView):
     def get(self, request):
         data = Listing.objects.all()
         serializer = ListingSerializer(data, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        fdata = []
+
+        for data in serializer.data:
+
+            print(type(data))
+
+            entity = Entity.obbjects.get(pk = data['entity'])
+
+            data['entity'] = entity
+
+            fdata.append(data)
+
+        return Response(fdata, status=status.HTTP_200_OK)
 
 
 class ListingApiView(APIView):

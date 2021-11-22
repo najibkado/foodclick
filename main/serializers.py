@@ -58,6 +58,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'id',
             'entity',
             'desc',
+            'name'
             'pickup_address',
             'url',
             'quantity',
