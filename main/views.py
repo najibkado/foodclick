@@ -148,7 +148,7 @@ class ListingsApiView(APIView):
 
             entity = Entity.objects.get(pk = data['entity'])
 
-            data['entity'] = entity
+            data['entity'] = entity.serialize()
 
             fdata.append(data)
 
