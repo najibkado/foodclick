@@ -146,7 +146,7 @@ class ListingsApiView(APIView):
 
             print(type(data))
 
-            entity = Entity.obbjects.get(pk = data['entity'])
+            entity = Entity.objects.get(pk = data['entity'])
 
             data['entity'] = entity
 
