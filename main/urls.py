@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/listing', views.ListingsApiView.as_view()),
     path('api/listing/<int:id>', views.ListingApiView.as_view()),
     path('api/giveaway', views.GiveawaysApiView.as_view()),
-    path('api/giveaway/<int:id>', views.GiveawayApiView.as_view())
+    path('api/giveaway/<int:id>', views.GiveawayApiView.as_view()),
+    path('api/home', views.HomeApiView.as_view())
 ]

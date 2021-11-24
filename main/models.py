@@ -33,9 +33,28 @@ class Listing(models.Model):
     is_active = models.BooleanField(default=True)
     date = models.DateTimeField(auto_now=True)
 
+    def serialize(self):
+        return {
+            "entity": self.entity.id,
+            "name": self.name,
+            "desc": self.desc,
+            "address": self.pickup_address,
+            "url": self.url,
+            "quantity": self.quantity,
+            "is_active": self.is_active,
+            "date": self.date
+        }
+
 class Giveaway(models.Model):
     nin = models.CharField(max_length=255)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="giveaway_listing")
     date = models.DateTimeField(auto_now=True)
+
+    def serialize(self):
+        return {
+            "nin": self.nin,
+            "listing": self.listing.serialize(),
+            "date": self.date
+        }
 
 

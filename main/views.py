@@ -138,7 +138,7 @@ class ListingsApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
-        data = Listing.objects.all()
+        data = Listing.objects.filter(is_active=True)
         serializer = ListingSerializer(data, many=True)
         fdata = []
 
@@ -197,6 +197,13 @@ class GiveawaysApiView(APIView):
 
         if serializer.is_valid():
             serializer.save()
+            listing = Listing.objects.get(pk=serializer.data['listing'])
+            listing.quantity = listing.quantity - 1
+            listing.save()
+            if listing.quantity <= 0:
+                listing.is_active = False
+                listing.save()
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -238,3 +245,46 @@ class GiveawayApiView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class HomeApiView(APIView):
+
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+    def get(self, request):
+
+        entity = Entity.objects.get(user=request.user)
+
+        entitySerializer = EntitySerializer(entity)
+
+        listings = Listing.objects.filter(entity=entity)
+
+        #listingSerializer = ListingSerializer(listings, many=True)
+        
+        fdata = []
+
+        active_donations_count = 0
+
+        for data in listings:
+
+            if data.is_active:
+                active_donations_count += 1
+
+            try:
+                giveaway = Giveaway.objects.filter(listing=data)
+                if giveaway:
+                    for d in giveaway:
+                        fdata.append(d)
+
+            except Giveaway.DoesNotExist:
+                pass
+
+        res = {
+            "entity": entitySerializer.data,
+            "listings": [listing.serialize() for listing in listings],
+            "active_donations": active_donations_count,
+            "total_donations": len(listings) + 1,
+            "giveaway": [giveaway.serialize() for giveaway in fdata]
+        }
+
+        return Response(res, status=status.HTTP_200_OK)
