@@ -198,7 +198,7 @@ class GiveawaysApiView(APIView):
         if serializer.is_valid():
             serializer.save()
             listing = Listing.objects.get(pk=serializer.data['listing'])
-            listing.quantity = listing.quantity - 1
+            listing.quantity = int(listing.quantity) - 1
             listing.save()
             if listing.quantity <= 0:
                 listing.is_active = False
