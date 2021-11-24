@@ -68,7 +68,7 @@ class UserRegisterApiView(APIView):
             serializer.save()
             user = User.objects.get(username=serializer.data['username'])
             token = Token.objects.create(user=user)
-            return Response({'user_id': user.id, 'data': serializer.data, 'token': token.key }, status=status.HTTP_201_CREATED)
+            return Response({'user_id': user.id, 'user': serializer.data, 'token': token.key }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
